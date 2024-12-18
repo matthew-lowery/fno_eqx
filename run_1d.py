@@ -25,7 +25,6 @@ y_train, y_test = y[: ntrain], y[: -ntest]
 
 
 ### data config 
-normalize = True
 train_batch_size = 20
 num_train_batches = len(x_train) // train_batch_size
 
@@ -61,12 +60,6 @@ x_normalizer = UnitGaussianNormalizer(x_train)
 x_train = x_normalizer.encode(x_train)
 x_test = x_normalizer.encode(x_test)
 y_normalizer = UnitGaussianNormalizer(y_train)
-
-if normalize:
-    m,s = jnp.mean(x_train, axis=0), jnp.std(x_train, axis=0)+1e-8
-    x_train,x_test = (x_train-m)/s, (x_test-m)/s
-    m,s = jnp.mean(y_train, axis=0), jnp.std(y_train, axis=0)+1e-8
-    y_train,y_test = (y_train-m)/s, (y_test-m)/s
 
 
 ### dataset is small enough to fully load onto gpu and slice

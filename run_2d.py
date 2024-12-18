@@ -27,7 +27,6 @@ y_train, y_test = y[: ntrain], y[: -ntest]
 
 
 ### data config 
-normalize = True
 train_batch_size = 20
 num_train_batches = len(x_train) // train_batch_size
 
