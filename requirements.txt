@@ -1,0 +1,5 @@
+jax[cuda12]
+equinox
+numpy
+optax
+grain
