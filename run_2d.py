@@ -22,8 +22,8 @@ grids = (x_grid, y_grid)
 ntrain = 1000
 ntest = 200
 
-x_train, x_test = x[: ntrain], x[: -ntest]
-y_train, y_test = y[: ntrain], y[: -ntest]
+x_train, x_test = x[: ntrain], x[-ntest:]
+y_train, y_test = y[: ntrain], y[-ntest:]
 
 
 ### data config 
