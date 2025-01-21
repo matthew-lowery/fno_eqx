@@ -16,9 +16,8 @@ key = jax.random.PRNGKey(seed=42)
 data = jnp.load('../datasets/darcy_pwc.npz') ### 
 x, x_grid, y, y_grid = data["x"], data["x_grid"], data["y"], data["y_grid"]
 res = 29
-x, x_grid, y, y_grid = x.reshape(1200,res,res,1), x_grid.reshape(res,res,2), y.reshape(1200,res,res,1), y_grid.reshape(res,res,2)
-grids = (x_grid, y_grid)
-
+x, x_grid, y, y_grid = x.reshape(1200,res,res,1), x_grid.reshape(res,res,2), y.reshape(1200,res,res,1), y_grid.reshape(res,res,2) ### this format fno wants
+print(f'dataset dims: {x.shape=}, {x_grid.shape=}, {y.shape=}, {y_grid.shape=}')
 ntrain = 1000
 ntest = 200
 

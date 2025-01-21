@@ -16,8 +16,7 @@ key = jax.random.PRNGKey(seed=42)
 ### load data
 data = jnp.load('../datasets/burgers.npz')
 x, x_grid, y, y_grid = data["x"], data["x_grid"], data["y"], data["y_grid"]
-grids = (x_grid, y_grid)
-
+print(f'dataset dims: {x.shape=}, {x_grid.shape=}, {y.shape=}, {y_grid.shape=}')
 
 ntrain = 1000
 ntest = 200
@@ -40,7 +39,7 @@ lift_dim= 32
 model = FNO(modes, lift_dim, activation, depth, key=key)
 
 ### optimizer config 
-epochs = 10
+epochs = 10000
 lr_schedule = cosine_annealing(
     total_steps = num_train_batches*epochs,
     init_value=1e-3,
@@ -123,12 +122,9 @@ def eval(model, batch,):
     return l2_loss.mean()
 t1 = time.perf_counter()
 for epoch in range(epochs):
-
     epoch_key,_ = jr.split(key)
-
     for batch_i in range(num_train_batches):
         batch = get_train_batch(batch_i, epoch_key)
-
         model, optimizer_state, (train_loss, train_l2) = train_step(model, batch, optimizer_state)
         
     if (epoch % print_every) == 0 or (epoch == epochs - 1):

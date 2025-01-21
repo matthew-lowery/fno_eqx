@@ -20,6 +20,7 @@ path = '../datasets/burgers.npz'
 ### load data
 data = jnp.load('../datasets/burgers.npz')
 x, x_grid, y, y_grid = data["x"], data["x_grid"], data["y"], data["y_grid"]
+print(f'dataset dims: {x.shape=}, {x_grid.shape=}, {y.shape=}, {y_grid.shape=}')
 
 ntrain = 1000
 ntest = 200
@@ -40,13 +41,6 @@ class BurgersTrain(grain.RandomAccessDataSource):
         return (self._data[0][idx], self._data[1][idx])
     def __len__(self):
         return len(self._data[0])
-class BurgersTest(grain.RandomAccessDataSource):
-    def __init__(self,):
-        self._data = x_test, y_test
-    def __getitem__(self, idx):
-        return (self._data[0][idx], self._data[1][idx])
-    def __len__(self):
-        return len(self._data[0])
     
 train_batch_size = 20
 test_batch_size = 200
@@ -57,14 +51,7 @@ train_dataset = (
     .shuffle(seed=42)
     .batch(batch_size=train_batch_size)
 )
-
-test_dataset = (
-    grain.MapDataset.source(BurgersTest())
-    .batch(batch_size=test_batch_size)
-)
-
-test_batch = next(iter(test_dataset.to_iter_dataset(grain.ReadOptions(num_threads=10, prefetch_buffer_size=10))))
-train_batches = train_dataset.to_iter_dataset(grain.ReadOptions(num_threads=10, prefetch_buffer_size=10))
+train_batched = train_dataset.to_iter_dataset(grain.ReadOptions(num_threads=10, prefetch_buffer_size=10))
 
 ## model config 
 modes = [12] ### list of modes, one per dim
@@ -75,7 +62,7 @@ lift_dim= 32
 model = FNO(modes, lift_dim, activation, depth, key=key)
 
 ### optimizer config 
-epochs = 10
+epochs = 10000
 lr_schedule = cosine_annealing(
     total_steps = num_train_batches*epochs,
     init_value=1e-3,
@@ -127,7 +114,7 @@ def eval(model, batch,):
 
 t1 = time.perf_counter()
 for epoch in range(epochs):
-    for batch in train_batches:
+    for batch in train_batched:
         model, optimizer_state, (train_loss, train_l2) = train_step(model, optimizer_state, batch)
 
     if (epoch % print_every) == 0 or (epoch == epochs - 1):
