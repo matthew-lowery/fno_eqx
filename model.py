@@ -62,7 +62,7 @@ class FNO(eqx.Module):
                  f_x:  Float[Array, "x_1 x_2 x_ndims 1"], 
                  x_grid: Float[Array, "x_1 x_2 x_ndims ndims"],
                  ) -> Float[Array, "x_1 x_2 x_ndims 1"]:
-
+        print(x_grid.shape, f_x.shape)
         f_x = jnp.concatenate((f_x, x_grid), axis=-1)
         f_x = jax.vmap(self.lift_layer)(f_x.reshape(-1,f_x.shape[-1]))
         f_x = f_x.reshape(*x_grid.shape[:self.ndims],self.lift_dim)
@@ -75,7 +75,7 @@ class FNO(eqx.Module):
             f_x = self.spectral_layers[i](f_x)
             f_x = self.activation(f_x_prev + f_x)
 
-        f_x_prev = f_x
+        f_x_prev = self.pointwise_layers[-1](f_x.transpose(self.transposes[0])).transpose(self.transposes[1])
         f_x = f_x_prev + self.spectral_layers[-1](f_x)
         
         
