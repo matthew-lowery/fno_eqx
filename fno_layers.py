@@ -8,7 +8,6 @@ from functools import partial
 
 
 class SpectralConv1d(eqx.Module):
-    ndims: int
     mul: callable
     mode: int
     out_channels: int
@@ -28,8 +27,7 @@ class SpectralConv1d(eqx.Module):
         scale = 1 / (in_channels*out_channels)
 
         key,key1 = jr.split(key)
-        self.weights = jr.uniform(key, (mode, in_channels, out_channels)) * scale
-        self.weights+= (jr.uniform(key1, (mode, in_channels, out_channels)) * scale) * 1j ### jax casts this to complex64
+        self.weights = jr.uniform(key, (2, mode, in_channels, out_channels)) * scale
 
         self.mul = partial(jnp.einsum, 
                            f'ic,ico->io')
@@ -37,8 +35,8 @@ class SpectralConv1d(eqx.Module):
 
     def __call__(self, x: Float[Array, "x in_channels"]) -> Float[Array, "x out_channels"]: ### x,y,z,channels
         x_ft = jnp.fft.rfftn(x, axes=list(range(self.ndims))) ### no batch dim, of shape x,y,z//2+1,channels
-        out_ft = jnp.zeros((*x_ft.shape[:-1], self.out_channels))
-        out = self.mul(x_ft[:self.mode], self.weights)
+        out_ft = jnp.zeros((*x_ft.shape[:-1], self.out_channels), dtype=jnp.complex64)
+        out = self.mul(x_ft[:self.mode], self.weights[0]+self.weights[1]*1j)
         out_ft = out_ft.at[:self.mode,].set(out)
         return jnp.fft.irfftn(out_ft, axes=list(range(self.ndims)))
 
@@ -66,9 +64,8 @@ class SpectralConv2d(eqx.Module):
         num_weights = (2**(self.ndims-1))
         key,key1 = jr.split(key)
 
-        self.weights = [jr.uniform(k1, (*modes, in_channels, out_channels)) * scale + \
-                        jr.uniform(k2, (*modes, in_channels, out_channels)) * scale * 1j for k1,k2 in zip(jr.split(key, num_weights), jr.split(key1, num_weights))]
-        
+        self.weights = [jr.uniform(k, (2, *modes, in_channels, out_channels)) * scale for k in jr.split(key1, num_weights)]
+
         self.mul = partial(jnp.einsum, 
                            f'ijc,ijco->ijo')
         self.out_channels = out_channels
@@ -79,10 +76,10 @@ class SpectralConv2d(eqx.Module):
 
         out_ft = jnp.zeros((*x_ft.shape[:-1], self.out_channels))
 
-        out = self.mul(x_ft[:modes[0], :modes[1]], self.weights[0])
+        out = self.mul(x_ft[:modes[0], :modes[1]], self.weights[0][0]+self.weights[0][1]*1j)
         out_ft = out_ft.at[:modes[0],:modes[1]].set(out)
 
-        out = self.mul(x_ft[-modes[0]:, :modes[1]], self.weights[1])
+        out = self.mul(x_ft[-modes[0]:, :modes[1]], self.weights[1][0]+self.weights[1][1]*1j)
         out_ft = out_ft.at[-modes[0]:,:modes[1]].set(out)
         
         return jnp.fft.irfftn(out_ft, s=(x.shape[0], x.shape[1]), axes=list(range(self.ndims)))
@@ -114,8 +111,7 @@ class SpectralConv3d(eqx.Module):
         num_weights = (2**(self.ndims-1))
         key,key1 = jr.split(key)
 
-        self.weights = [jr.uniform(k1, (*modes, in_channels, out_channels)) * scale + \
-                        jr.uniform(k2, (*modes, in_channels, out_channels)) * scale * 1j for k1,k2 in zip(jr.split(key, num_weights), jr.split(key1, num_weights))]
+        self.weights = [jr.uniform(k, (2, *modes, in_channels, out_channels)) * scale for k in jr.split(key1, num_weights)]
         
 
         self.mul = partial(jnp.einsum, 
@@ -127,16 +123,16 @@ class SpectralConv3d(eqx.Module):
         x_ft = jnp.fft.rfftn(x, axes=list(range(self.ndims))) ### no batch dim, of shape x,y,z//2+1,channels
         out_ft = jnp.zeros((*x_ft.shape[:-1], self.out_channels))
 
-        out = self.mul(x_ft[:modes[0], :modes[1], :modes[2]], self.weights[0])
+        out = self.mul(x_ft[:modes[0], :modes[1], :modes[2]], self.weights[0][0]+self.weights[0][1]*1j)
         out_ft = out_ft.at[:modes[0],:modes[1], :modes[2]].set(out)
 
-        out = self.mul(x_ft[-modes[0]:, :modes[1], :modes[2]], self.weights[1])
+        out = self.mul(x_ft[-modes[0]:, :modes[1], :modes[2]], self.weights[1][0]+self.weights[1][1]*1j)
         out_ft = out_ft.at[-modes[0]:,:modes[1], :modes[2]].set(out)
 
-        out = self.mul(x_ft[:modes[0], -modes[1]:, :modes[2]], self.weights[2])
+        out = self.mul(x_ft[:modes[0], -modes[1]:, :modes[2]], self.weights[2][0]+self.weights[2][1]*1j)
         out_ft = out_ft.at[:modes[0],-modes[1]:, :modes[2]].set(out)
 
-        out = self.mul(x_ft[-modes[0]:, -modes[1]:, :modes[2]], self.weights[3])
+        out = self.mul(x_ft[-modes[0]:, -modes[1]:, :modes[2]], self.weights[3][0]+self.weights[3][1]*1j)
         out_ft = out_ft.at[-modes[0]:,-modes[1]:, :modes[2]].set(out)
 
         return jnp.fft.irfftn(out_ft, s=(x.shape[0], x.shape[1], x.shape[2]), axes=list(range(self.ndims)))
