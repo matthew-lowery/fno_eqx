@@ -38,14 +38,14 @@ class SpectralConv2d(eqx.Module):
         
         ### 
         x_fty = jnp.fft.rfftn(x, axes=(1,), norm='ortho') 
-        out_ft = jnp.zeros((*x_fty.shape[:-1], self.out_channels))
+        out_ft = jnp.zeros((*x_fty.shape[:-1], self.out_channels), dtype=jnp.complex64)
         out = self.muly(x_fty[:, :modes[1], :], self.weights[1][0]+self.weights[1][1]*1j)
         out_ft = out_ft.at[:, :modes[1], :].set(out)
         second_dim = jnp.fft.irfftn(out_ft, s=(x.shape[1],), axes=(1,), norm='ortho')
         
         
         x_ftx = jnp.fft.rfftn(x, axes=(0,), norm='ortho') 
-        out_ft = jnp.zeros((*x_ftx.shape[:-1], self.out_channels))
+        out_ft = jnp.zeros((*x_ftx.shape[:-1], self.out_channels), dtype=jnp.complex64)
         out = self.mulx(x_ftx[:modes[0], :, :], self.weights[0][0]+self.weights[0][1]*1j)
         out_ft = out_ft.at[:modes[0], :, :].set(out)
         first_dim = jnp.fft.irfftn(out_ft, s=(x.shape[0],), axes=(0,), norm='ortho')
@@ -87,7 +87,7 @@ class SpectralConv3d(eqx.Module):
         
         
         x_ftz = jnp.fft.rfftn(x, axes=(2,), norm='ortho') 
-        out_ft = jnp.zeros((*x_ftz.shape[:-1], self.out_channels))
+        out_ft = jnp.zeros((*x_ftz.shape[:-1], self.out_channels), dtype=jnp.complex64)
         out = self.mulz(x_ftz[:, :modes[2], :], self.weights[2][0]+self.weights[2][1]*1j)
         out_ft = out_ft.at[:, :modes[2], :].set(out)
         third_dim = jnp.fft.irfftn(out_ft, s=(x.shape[2],), axes=(2,), norm='ortho')
@@ -95,14 +95,14 @@ class SpectralConv3d(eqx.Module):
         
         ### 
         x_fty = jnp.fft.rfftn(x, axes=(1,), norm='ortho') 
-        out_ft = jnp.zeros((*x_fty.shape[:-1], self.out_channels))
+        out_ft = jnp.zeros((*x_fty.shape[:-1], self.out_channels), dtype=jnp.complex64)
         out = self.muly(x_fty[:, :modes[1], :], self.weights[1][0]+self.weights[1][1]*1j)
         out_ft = out_ft.at[:, :modes[1], :].set(out)
         second_dim = jnp.fft.irfftn(out_ft, s=(x.shape[1],), axes=(1,), norm='ortho')
         
         
         x_ftx = jnp.fft.rfftn(x, axes=(0,), norm='ortho') 
-        out_ft = jnp.zeros((*x_ftx.shape[:-1], self.out_channels))
+        out_ft = jnp.zeros((*x_ftx.shape[:-1], self.out_channels), dtype=jnp.complex64)
         out = self.mulx(x_ftx[:modes[0], :, :], self.weights[0][0]+self.weights[0][1]*1j)
         out_ft = out_ft.at[:modes[0], :, :].set(out)
         first_dim = jnp.fft.irfftn(out_ft, s=(x.shape[0],), axes=(0,), norm='ortho')
