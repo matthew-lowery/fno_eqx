@@ -74,7 +74,7 @@ class SpectralConv2d(eqx.Module):
         modes = self.modes
         x_ft = jnp.fft.rfftn(x, axes=list(range(self.ndims))) ### no batch dim, of shape x,y,z//2+1,channels
 
-        out_ft = jnp.zeros((*x_ft.shape[:-1], self.out_channels))
+        out_ft = jnp.zeros((*x_ft.shape[:-1], self.out_channels), dtype=jnp.complex64)
 
         out = self.mul(x_ft[:modes[0], :modes[1]], self.weights[0][0]+self.weights[0][1]*1j)
         out_ft = out_ft.at[:modes[0],:modes[1]].set(out)
@@ -121,7 +121,7 @@ class SpectralConv3d(eqx.Module):
     def __call__(self, x: Float[Array, "x y z in_channels"]) -> Float[Array, "x y z in_channels"]: ### x,y,z,channels
         modes = self.modes
         x_ft = jnp.fft.rfftn(x, axes=list(range(self.ndims))) ### no batch dim, of shape x,y,z//2+1,channels
-        out_ft = jnp.zeros((*x_ft.shape[:-1], self.out_channels))
+        out_ft = jnp.zeros((*x_ft.shape[:-1], self.out_channels), dtype=jnp.complex64)
 
         out = self.mul(x_ft[:modes[0], :modes[1], :modes[2]], self.weights[0][0]+self.weights[0][1]*1j)
         out_ft = out_ft.at[:modes[0],:modes[1], :modes[2]].set(out)

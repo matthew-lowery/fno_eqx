@@ -4,9 +4,17 @@ from typing import Tuple
 from jax import numpy as jnp, jit
 from functools import partial
 import optax
-
+import numpy as np
 
 DTYPE=jnp.float32
+
+def shuffle(x,y, seed=1):
+    np.random.seed(seed)
+    idx = np.arange(len(x))
+    np.random.shuffle(idx)
+    x = x[idx]
+    y = y[idx]
+    return x,y
 
 
 class UnitGaussianNormalizer(object):

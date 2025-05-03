@@ -23,6 +23,7 @@ class FNO(eqx.Module):
                  lift_dim: int,
                  activation: Callable,
                  depth: int,
+                 in_feats: int,
                  *,
                  key,
                  **kwargs,
@@ -44,7 +45,7 @@ class FNO(eqx.Module):
             raise 'spectral conv not implemented for dimensions > 3'
         
         key,_ = jr.split(keys[0])
-        self.lift_layer =  eqx.nn.Linear(1+ndims, lift_dim, key=key)
+        self.lift_layer =  eqx.nn.Linear(in_feats+ndims, lift_dim, key=key)
 
         keys = jr.split(key)
         self.proj_layers = [eqx.nn.Linear(lift_dim, lift_dim, key=keys[0]), eqx.nn.Linear(lift_dim, 1, key=keys[1])]

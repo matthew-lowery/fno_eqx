@@ -32,11 +32,11 @@ num_train_batches = len(x_train) // train_batch_size
 
 ## model config 
 modes = [12,12]
-depth = 4
+depth = 3
 activation = jax.nn.gelu
 lift_dim= 32
 
-model = FNO(modes, lift_dim, activation, depth, key=key)
+model = FNO(modes, lift_dim, activation, depth, 1, key=key)
 
 ### optimizer config 
 epochs = 10000

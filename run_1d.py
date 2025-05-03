@@ -6,7 +6,7 @@ from utils import *
 import equinox as eqx
 from model import FNO
 import time
-
+import pickle
 # jax.config.update("jax_disable_jit", True)
 # jax.config.update("jax_debug_nans", True)
 # jax.config.update("jax_enable_x64", True)
@@ -14,29 +14,56 @@ import time
 key = jax.random.PRNGKey(seed=42)
 
 ### load data
-data = jnp.load('../datasets/burgers.npz')
-x, x_grid, y, y_grid = data["x"], data["x_grid"], data["y"], data["y_grid"]
-print(f'dataset dims: {x.shape=}, {x_grid.shape=}, {y.shape=}, {y_grid.shape=}')
+# data = jnp.load('../datasets/burgers.npz')
+# x, x_grid, y, y_grid = data["x"], data["x_grid"], data["y"], data["y_grid"]
+# print(f'dataset dims: {x.shape=}, {x_grid.shape=}, {y.shape=}, {y_grid.shape=}')
 
-ntrain = 1000
-ntest = 200
-
-x_train, x_test = x[: ntrain], x[-ntest:]
-y_train, y_test = y[: ntrain], y[-ntest:]
+# ntrain = 1000
+# ntest = 200
 
 
-### data config 
+# x_train, x_test = x[: ntrain], x[-ntest:]
+# y_train, y_test = y[: ntrain], y[-ntest:]
+
+
+# ### data config 
+# t
+# num_train_batches = len(x_train) // train_batch_size
+
+def get_beijing(seed=0, normalization=True):
+    Ntr, Nte = 5000, 1000
+    with open('./datasets/beijing_data.pickle', 'rb') as handle:
+        d = pickle.load(handle)
+    X, Y = d["x"][:Ntr+Nte], d["y"][:Ntr+Nte]
+    X,Y=shuffle(X,Y)
+    Xtr, Xte = X[:Ntr], X[Ntr:]
+    Ytr, Yte = Y[:Ntr], Y[Ntr:]
+    return Xtr, Xte,Ytr,Yte
+
+
+
+x_train,x_test,y_train,y_test = get_beijing()
+y_train, y_test = y_train.squeeze(), y_test.squeeze()
+x_grid = jnp.linspace(0,1,x_train.shape[1])[:,None]
+ndims = x_grid.shape[-1]
+ntrain = len(x_train)
+ntest = len(x_test)
+print(f'{x_train.shape=}, {x_test.shape=}, {y_train.shape=}, {y_test.shape=}')
 train_batch_size = 20
 num_train_batches = len(x_train) // train_batch_size
 
+print(x_train.shape, y_train.shape)
+
+
+
 
 ## model config 
-modes = [12] ### list of modes, one per dim
+modes = [10] ### list of modes, one per dim
 depth = 4
 activation = jax.nn.gelu
-lift_dim= 32
+lift_dim= 256
 
-model = FNO(modes, lift_dim, activation, depth, key=key)
+model = FNO(modes, lift_dim, activation, depth, 5, key=key)
 
 ### optimizer config 
 epochs = 10000
@@ -96,7 +123,7 @@ def train_step(model, batch, optimizer_state):
     x,y = batch
 
     def loss(model):
-        y_pred = eqx.filter_vmap(lambda x: model(x,x_grid))(x)
+        y_pred = eqx.filter_vmap(lambda x: model(x,x_grid))(x).squeeze()
         y_pred = y_normalizer.decode(y_pred)
         return ((y-y_pred)**2).sum(axis=1).mean(), y_pred
     
@@ -113,7 +140,7 @@ def train_step(model, batch, optimizer_state):
 def eval(model, batch,):
     x,y = batch
     def loss(model):
-        y_pred = eqx.filter_vmap(lambda x: model(x,x_grid,))(x)
+        y_pred = eqx.filter_vmap(lambda x: model(x,x_grid,))(x).squeeze()
         y_pred = y_normalizer.decode(y_pred)
         return ((y-y_pred)**2).sum(axis=1).mean(), y_pred
 
