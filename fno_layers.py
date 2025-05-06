@@ -39,7 +39,8 @@ class SpectralConv1d(eqx.Module):
         out = self.mul(x_ft[:self.mode], self.weights[0]+self.weights[1]*1j)
         out_ft = out_ft.at[:self.mode,].set(out)
         return jnp.fft.irfftn(out_ft, axes=list(range(self.ndims)))
-
+    
+    
 class SpectralConv2d(eqx.Module):
     ndims: int
     mul: callable
@@ -83,6 +84,7 @@ class SpectralConv2d(eqx.Module):
         out_ft = out_ft.at[-modes[0]:,:modes[1]].set(out)
         
         return jnp.fft.irfftn(out_ft, s=(x.shape[0], x.shape[1]), axes=list(range(self.ndims)))
+        
         
 class SpectralConv3d(eqx.Module):
     ndims: int
