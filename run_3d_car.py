@@ -19,9 +19,9 @@ parser.add_argument('--depth', type=int, default=4)
 parser.add_argument('--mode', type=int, default=2)
 parser.add_argument('--res_1d', type=int, default=8)
 parser.add_argument('--test-batch-size', type=int, default=1)
-parser.add_argument('--input-kernel', type=str, default='ns_g')
-parser.add_argument('--output-kernel', type=str, default='ns_g')
-parser.add_argument('--name', type=str, default='burgers_kno')
+parser.add_argument('--input-kernel', type=str, default='g')
+parser.add_argument('--output-kernel', type=str, default='g')
+parser.add_argument('--name', type=str, default='car_fno_interp')
 parser.add_argument('--wandb', action='store_true')
 parser.add_argument('--seed', type=int, default=42)
 
@@ -157,7 +157,8 @@ for epoch in range(args.epochs):
     for batch_i in range(num_train_batches):
         batch = get_train_batch(batch_i, epoch_key)
         model, optimizer_state, (train_loss, train_l2) = train_step(model, batch, optimizer_state)
-        print(train_l2)
+        wandb.log({"train_loss": train_l2.item()*100,})
     if (epoch % print_every) == 0 or (epoch == args.epochs - 1):
         test_l2 = eval(model, (x_grid_test, y_test))
+        wandb.log({"train_loss": test_l2.item()*100,}, step=epoch)
         print(f"{epoch=}, train_loss: {train_loss.item():.3f}, train_l2: {train_l2.item()*100:.3f}, test_l2: {test_l2.item()*100:.3f}")
