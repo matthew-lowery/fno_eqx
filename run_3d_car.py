@@ -42,7 +42,7 @@ key = jax.random.PRNGKey(seed=42)
 
 ### load data
 ### load data
-data = np.load('../kno_eqx/datasets/car_finished.npz')
+data = np.load('../deep_gp_op/datasets/car_finished.npz')
 x_grid = data['vertices']
 y = data['pressure']
 print(x_grid.shape, y.shape)

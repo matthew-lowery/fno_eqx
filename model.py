@@ -5,7 +5,7 @@ from jax import numpy as jnp
 import equinox as eqx
 from typing import List
 from jaxtyping import Float, Array
-from fno_layers import *
+from ffno_layers import *
 
 
 class FNO(eqx.Module):
