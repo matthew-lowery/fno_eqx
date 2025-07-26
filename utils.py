@@ -17,6 +17,10 @@ def shuffle(x,y, seed=1):
     return x,y
 
 
+def create_lifted_module(base_layer, lift_dim, key):
+    keys = jr.split(key, lift_dim)
+    return eqx.filter_vmap(lambda key: base_layer(key=key))(keys)
+
 class UnitGaussianNormalizer(object):
     def __init__(self, x, eps=0.00001):
         # x could be in shape of ntrain*n or ntrain*T*n or ntrain*n*T

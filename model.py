@@ -17,6 +17,9 @@ class FNO(eqx.Module):
     transposes: List[List[int]]
     lift_dim: int
     ndims: int
+    input_kernel: eqx.Module
+    output_kernel: eqx.Module
+    res_1d: int
 
     def __init__(self, 
                  modes: List[int], ## length of this list specifies dimension? 
@@ -24,6 +27,9 @@ class FNO(eqx.Module):
                  activation: Callable,
                  depth: int,
                  in_feats: int,
+                 res_1d: int,
+                 input_kernel,
+                 output_kernel,
                  *,
                  key,
                  **kwargs,
@@ -58,16 +64,26 @@ class FNO(eqx.Module):
 
         self.lift_dim = lift_dim
         self.ndims = ndims
-        
-    def __call__(self, 
-                 f_x:  Float[Array, "x_1 x_2 x_ndims 1"], 
-                 x_grid: Float[Array, "x_1 x_2 x_ndims ndims"],
-                 ) -> Float[Array, "x_1 x_2 x_ndims 1"]:
-        print(x_grid.shape, f_x.shape)
-        f_x = jnp.concatenate((f_x, x_grid), axis=-1)
-        f_x = jax.vmap(self.lift_layer)(f_x.reshape(-1,f_x.shape[-1]))
-        f_x = f_x.reshape(*x_grid.shape[:self.ndims],self.lift_dim)
+        self.res_1d = res_1d
 
+        keys = jr.split(keys[0], 2)
+        self.input_kernel = input_kernel(key=keys[0])
+        self.output_kernel = output_kernel(key=keys[1])
+        
+
+    def __call__(self, 
+                 x_grid: Float[Array, "x_1 x_2 x_ndims ndims"],
+                 q_grid,
+                 ) -> Float[Array, "x_1 x_2 x_ndims 1"]:
+        
+        f_x = jax.vmap(self.lift_layer)(x_grid) ### 3586,lift_dim
+        q= q_grid
+        Ixx = jnp.eye(len(x_grid)) * 1e-5
+        Kxx = self.input_kernel(x_grid, x_grid) + Ixx
+        Kxq = self.input_kernel(x_grid, q)
+        KqxKinv = jnp.linalg.solve(Kxx, Kxq).T
+        f_x = jnp.einsum('mc,qm->qc', f_x, KqxKinv) 
+        f_x = f_x.reshape(self.res_1d, self.res_1d, self.res_1d, -1)
         for i in range(len(self.spectral_layers[:-1])):
 
             ### conv wants channel dim first
@@ -79,8 +95,13 @@ class FNO(eqx.Module):
         f_x_prev = self.pointwise_layers[-1](f_x.transpose(self.transposes[0])).transpose(self.transposes[1])
         f_x = f_x_prev + self.spectral_layers[-1](f_x)
         
-        
+
         f_x = self.activation(jax.vmap(self.proj_layers[0])(f_x.reshape(-1,f_x.shape[-1])))
         f_x = jax.vmap(self.proj_layers[1])(f_x)
-        f_x = f_x.reshape(*x_grid.shape[:self.ndims], 1)
-        return f_x
+
+        Iqq = jnp.eye(len(q_grid)) * 1e-5
+        Kqq = self.output_kernel(q_grid,q_grid) + Iqq
+        Kqy = self.output_kernel(q_grid, x_grid)
+        KyqKqqInv = jnp.linalg.solve(Kqq, Kqy).T
+        f_x = jnp.einsum('mc,qm->qc', f_x,  KyqKqqInv) 
+        return f_x #### 3586,1
