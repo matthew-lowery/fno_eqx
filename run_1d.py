@@ -14,7 +14,7 @@ import pickle
 key = jax.random.PRNGKey(seed=42)
 
 ## load data
-data = jnp.load('../datasets/burgers.npz')
+data = jnp.load('datasets/burgers.npz')
 x, x_grid, y, y_grid = data["x"], data["x_grid"], data["y"], data["y_grid"]
 y = y.squeeze()
 print(f'dataset dims: {x.shape=}, {x_grid.shape=}, {y.shape=}, {y_grid.shape=}')
