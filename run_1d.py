@@ -7,6 +7,9 @@ import equinox as eqx
 from model import FNO
 import time
 import pickle
+import wandb
+
+
 # jax.config.update("jax_disable_jit", True)
 # jax.config.update("jax_debug_nans", True)
 # jax.config.update("jax_enable_x64", True)
@@ -50,8 +53,8 @@ num_train_batches = len(x_train) // train_batch_size
 
 print(x_train.shape, y_train.shape)
 
-
-
+wandb.login(key='d612cda26a5690e196d092756d668fc2aee8525b')
+wandb.init(project='fno')
 
 ## model config 
 modes = [10] ### list of modes, one per dim
@@ -143,6 +146,7 @@ def eval(model, batch,):
     test_loss,y_pred = loss(model)
     l2_loss = jnp.linalg.norm(y - y_pred, axis=1) / jnp.linalg.norm(y,axis=1)
     return l2_loss.mean()
+
 t1 = time.perf_counter()
 for epoch in range(epochs):
     epoch_key,_ = jr.split(key)
@@ -153,4 +157,5 @@ for epoch in range(epochs):
     if (epoch % print_every) == 0 or (epoch == epochs - 1):
         test_l2 = eval(model, (x_test, y_test))
         print(f"{epoch=}, train_loss: {train_loss.item():.3f}, train_l2: {train_l2.item()*100:.3f}, test_l2: {test_l2.item()*100:.3f}")
+        wandb.log({"test_loss": test_l2.item()*100}, step=epoch)
 print(time.perf_counter() - t1)
