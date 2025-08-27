@@ -1,10 +1,11 @@
 ### 
 from jaxtyping import Float, Array
 from typing import Tuple
-from jax import numpy as jnp, jit
+from jax import numpy as jnp, jit, random as jr
 from functools import partial
 import optax
 import numpy as np
+import equinox as eqx
 
 DTYPE=jnp.float32
 
@@ -16,6 +17,10 @@ def shuffle(x,y, seed=1):
     y = y[idx]
     return x,y
 
+
+def create_lifted_module(base_layer, lift_dim, key):
+    keys = jr.split(key, lift_dim)
+    return eqx.filter_vmap(lambda key: base_layer(key=key))(keys)
 
 class UnitGaussianNormalizer(object):
     def __init__(self, x, eps=0.00001):

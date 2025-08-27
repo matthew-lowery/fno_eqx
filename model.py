@@ -6,7 +6,7 @@ import equinox as eqx
 from typing import List
 from jaxtyping import Float, Array
 from fno_layers import *
-
+from utils import create_lifted_module as clm
 
 class FNO(eqx.Module):
     spectral_layers: List[eqx.Module]
@@ -36,7 +36,7 @@ class FNO(eqx.Module):
         ndims = len(modes)
 
         if ndims == 1:
-            self.spectral_layers = [SpectralConv1d(modes[0], lift_dim, lift_dim, key=key) for key in keys]
+            self.spectral_layers = [clm(partial(SpectralConv1d, modes[0], 1, 1), lift_dim, key=key) for key in keys]
         elif ndims == 2:
             self.spectral_layers = [SpectralConv2d(modes, lift_dim, lift_dim, key=key) for key in keys]
         elif ndims == 3:
@@ -73,11 +73,12 @@ class FNO(eqx.Module):
             ### conv wants channel dim first
             f_x_prev = self.pointwise_layers[i](f_x.transpose(self.transposes[0])).transpose(self.transposes[1])
 
-            f_x = self.spectral_layers[i](f_x)
+            f_x = eqx.filter_vmap(lambda f, l: l(f), in_axes=(1, eqx.if_array(0)), out_axes=1)(f_x[...,None], self.spectral_layers[i]).squeeze()
             f_x = self.activation(f_x_prev + f_x)
 
         f_x_prev = self.pointwise_layers[-1](f_x.transpose(self.transposes[0])).transpose(self.transposes[1])
-        f_x = f_x_prev + self.spectral_layers[-1](f_x)
+        f_x = eqx.filter_vmap(lambda f, l: l(f), in_axes=(1, eqx.if_array(0)), out_axes=1)(f_x[...,None], self.spectral_layers[i+1]).squeeze()
+        f_x = f_x_prev + f_x
         
         
         f_x = self.activation(jax.vmap(self.proj_layers[0])(f_x.reshape(-1,f_x.shape[-1])))
