@@ -1,0 +1,27 @@
+2025-08-28 11:22:44,002 INFO    MainThread:91661 [wandb_setup.py:_flush():79] Current SDK version is 0.18.5
+2025-08-28 11:22:44,003 INFO    MainThread:91661 [wandb_setup.py:_flush():79] Configure stats pid to 91661
+2025-08-28 11:22:44,003 INFO    MainThread:91661 [wandb_setup.py:_flush():79] Loading settings from /Users/mattlowery/.config/wandb/settings
+2025-08-28 11:22:44,003 INFO    MainThread:91661 [wandb_setup.py:_flush():79] Loading settings from /Users/mattlowery/Desktop/code/fno_eqx/wandb/settings
+2025-08-28 11:22:44,003 INFO    MainThread:91661 [wandb_setup.py:_flush():79] Loading settings from environment variables: {}
+2025-08-28 11:22:44,003 INFO    MainThread:91661 [wandb_setup.py:_flush():79] Inferring run settings from compute environment: {'program_relpath': 'run_1d.py', 'program_abspath': '/Users/mattlowery/Desktop/code/fno_eqx/run_1d.py', 'program': '/Users/mattlowery/Desktop/code/fno_eqx/run_1d.py'}
+2025-08-28 11:22:44,003 INFO    MainThread:91661 [wandb_setup.py:_flush():79] Applying login settings: {'api_key': '***REDACTED***'}
+2025-08-28 11:22:44,003 INFO    MainThread:91661 [wandb_setup.py:_flush():79] Applying login settings: {'api_key': '***REDACTED***'}
+2025-08-28 11:22:44,003 INFO    MainThread:91661 [wandb_setup.py:_flush():79] Applying login settings: {}
+2025-08-28 11:22:44,003 INFO    MainThread:91661 [wandb_init.py:_log_setup():534] Logging user logs to /Users/mattlowery/Desktop/code/fno_eqx/wandb/run-20250828_112244-yb7n7ya1/logs/debug.log
+2025-08-28 11:22:44,003 INFO    MainThread:91661 [wandb_init.py:_log_setup():535] Logging internal logs to /Users/mattlowery/Desktop/code/fno_eqx/wandb/run-20250828_112244-yb7n7ya1/logs/debug-internal.log
+2025-08-28 11:22:44,003 INFO    MainThread:91661 [wandb_init.py:init():621] calling init triggers
+2025-08-28 11:22:44,003 INFO    MainThread:91661 [wandb_init.py:init():628] wandb.init called with sweep_config: {}
+config: {}
+2025-08-28 11:22:44,003 INFO    MainThread:91661 [wandb_init.py:init():671] starting backend
+2025-08-28 11:22:44,003 INFO    MainThread:91661 [wandb_init.py:init():675] sending inform_init request
+2025-08-28 11:22:44,004 INFO    MainThread:91661 [backend.py:_multiprocessing_setup():104] multiprocessing start_methods=spawn,fork,forkserver, using: spawn
+2025-08-28 11:22:44,004 INFO    MainThread:91661 [wandb_init.py:init():688] backend started and connected
+2025-08-28 11:22:44,005 INFO    MainThread:91661 [wandb_init.py:init():783] updated telemetry
+2025-08-28 11:22:44,014 INFO    MainThread:91661 [wandb_init.py:init():816] communicating run to backend with 90.0 second timeout
+2025-08-28 11:22:44,397 INFO    MainThread:91661 [wandb_init.py:init():867] starting run threads in backend
+2025-08-28 11:22:44,461 INFO    MainThread:91661 [wandb_run.py:_console_start():2463] atexit reg
+2025-08-28 11:22:44,461 INFO    MainThread:91661 [wandb_run.py:_redirect():2311] redirect: wrap_raw
+2025-08-28 11:22:44,461 INFO    MainThread:91661 [wandb_run.py:_redirect():2376] Wrapping output streams.
+2025-08-28 11:22:44,461 INFO    MainThread:91661 [wandb_run.py:_redirect():2401] Redirects installed.
+2025-08-28 11:22:44,462 INFO    MainThread:91661 [wandb_init.py:init():911] run started, returning control to user process
+2025-08-28 11:22:48,213 WARNING MsgRouterThr:91661 [router.py:message_loop():77] message_loop has been closed

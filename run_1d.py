@@ -63,6 +63,8 @@ activation = jax.nn.gelu
 lift_dim= 128
 
 model = FNO(modes, lift_dim, activation, depth, 1, key=key)
+print(f'param count: {sum(x.size for x in jax.tree.leaves(eqx.filter(model, is_trainable)))}')
+
 
 ### optimizer config 
 epochs = 10000

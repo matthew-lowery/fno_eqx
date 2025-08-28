@@ -5,6 +5,7 @@ from jax import numpy as jnp, jit
 from functools import partial
 import optax
 import numpy as np
+import equinox as eqx
 
 DTYPE=jnp.float32
 
@@ -16,6 +17,8 @@ def shuffle(x,y, seed=1):
     y = y[idx]
     return x,y
 
+def is_trainable(x):
+    return eqx.is_array(x) and jnp.issubdtype(x.dtype, jnp.floating)
 
 class UnitGaussianNormalizer(object):
     def __init__(self, x, eps=0.00001):

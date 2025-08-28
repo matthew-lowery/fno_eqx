@@ -1,0 +1,16 @@
+{"time":"2025-08-28T11:22:44.005098-06:00","level":"INFO","msg":"using version","core version":"0.18.5"}
+{"time":"2025-08-28T11:22:44.005145-06:00","level":"INFO","msg":"created symlink","path":"/Users/mattlowery/Desktop/code/fno_eqx/wandb/run-20250828_112244-yb7n7ya1/logs/debug-core.log"}
+{"time":"2025-08-28T11:22:44.112572-06:00","level":"INFO","msg":"created new stream","id":"yb7n7ya1"}
+{"time":"2025-08-28T11:22:44.112617-06:00","level":"INFO","msg":"stream: started","id":"yb7n7ya1"}
+{"time":"2025-08-28T11:22:44.11264-06:00","level":"INFO","msg":"sender: started","stream_id":"yb7n7ya1"}
+{"time":"2025-08-28T11:22:44.112636-06:00","level":"INFO","msg":"writer: Do: started","stream_id":{"value":"yb7n7ya1"}}
+{"time":"2025-08-28T11:22:44.11268-06:00","level":"INFO","msg":"handler: started","stream_id":{"value":"yb7n7ya1"}}
+{"time":"2025-08-28T11:22:44.399719-06:00","level":"INFO","msg":"Starting system monitor"}
+{"time":"2025-08-28T11:22:48.213047-06:00","level":"INFO","msg":"stream: closing","id":"yb7n7ya1"}
+{"time":"2025-08-28T11:22:48.213072-06:00","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2025-08-28T11:22:48.213445-06:00","level":"INFO","msg":"Stopped system monitor"}
+{"time":"2025-08-28T11:22:50.102742-06:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2025-08-28T11:22:50.284851-06:00","level":"INFO","msg":"handler: closed","stream_id":{"value":"yb7n7ya1"}}
+{"time":"2025-08-28T11:22:50.284879-06:00","level":"INFO","msg":"writer: Close: closed","stream_id":{"value":"yb7n7ya1"}}
+{"time":"2025-08-28T11:22:50.284912-06:00","level":"INFO","msg":"sender: closed","stream_id":"yb7n7ya1"}
+{"time":"2025-08-28T11:22:50.285223-06:00","level":"INFO","msg":"stream: closed","id":"yb7n7ya1"}
