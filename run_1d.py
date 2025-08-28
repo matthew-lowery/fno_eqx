@@ -123,7 +123,6 @@ def get_train_batch(
 
 #### model init
 
-print(f'param count: {sum(x.size for x in jax.tree.leaves(eqx.filter(model, eqx.is_array)))}')
 optimizer_state = optimizer.init(eqx.filter(model, eqx.is_array))
 
 

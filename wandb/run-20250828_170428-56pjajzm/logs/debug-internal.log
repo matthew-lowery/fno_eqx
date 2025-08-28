@@ -1,0 +1,12 @@
+{"time":"2025-08-28T17:04:28.523478-06:00","level":"INFO","msg":"using version","core version":"0.18.5"}
+{"time":"2025-08-28T17:04:28.523504-06:00","level":"INFO","msg":"created symlink","path":"/Users/mattlowery/Desktop/code/fno_eqx/wandb/run-20250828_170428-56pjajzm/logs/debug-core.log"}
+{"time":"2025-08-28T17:04:28.63165-06:00","level":"INFO","msg":"created new stream","id":"56pjajzm"}
+{"time":"2025-08-28T17:04:28.63169-06:00","level":"INFO","msg":"stream: started","id":"56pjajzm"}
+{"time":"2025-08-28T17:04:28.631703-06:00","level":"INFO","msg":"sender: started","stream_id":"56pjajzm"}
+{"time":"2025-08-28T17:04:28.631721-06:00","level":"INFO","msg":"handler: started","stream_id":{"value":"56pjajzm"}}
+{"time":"2025-08-28T17:04:28.631726-06:00","level":"INFO","msg":"writer: Do: started","stream_id":{"value":"56pjajzm"}}
+{"time":"2025-08-28T17:04:28.977736-06:00","level":"INFO","msg":"Starting system monitor"}
+{"time":"2025-08-28T17:04:45.066037-06:00","level":"INFO","msg":"stream: closing","id":"56pjajzm"}
+{"time":"2025-08-28T17:04:45.066084-06:00","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2025-08-28T17:04:45.066392-06:00","level":"INFO","msg":"Stopped system monitor"}
+{"time":"2025-08-28T17:04:46.874496-06:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}

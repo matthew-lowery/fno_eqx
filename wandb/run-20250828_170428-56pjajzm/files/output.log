@@ -1,0 +1,43 @@
+(1000, 128, 1) (1000, 128)
+param count: 26177
+param count: 26177
+epoch=0, train_loss: 0.244, train_l2: 11.035, test_l2: 11.740
+epoch=1, train_loss: 0.121, train_l2: 7.738, test_l2: 7.837
+epoch=2, train_loss: 0.055, train_l2: 5.339, test_l2: 6.443
+epoch=3, train_loss: 0.039, train_l2: 4.477, test_l2: 5.179
+epoch=4, train_loss: 0.037, train_l2: 4.336, test_l2: 4.931
+epoch=5, train_loss: 0.035, train_l2: 4.218, test_l2: 4.676
+epoch=6, train_loss: 0.034, train_l2: 4.170, test_l2: 4.485
+epoch=7, train_loss: 0.031, train_l2: 3.985, test_l2: 4.228
+epoch=8, train_loss: 0.027, train_l2: 3.734, test_l2: 3.957
+epoch=9, train_loss: 0.025, train_l2: 3.544, test_l2: 3.760
+epoch=10, train_loss: 0.022, train_l2: 3.270, test_l2: 3.606
+epoch=11, train_loss: 0.019, train_l2: 2.949, test_l2: 3.485
+epoch=12, train_loss: 0.017, train_l2: 2.755, test_l2: 3.317
+epoch=13, train_loss: 0.015, train_l2: 2.667, test_l2: 3.074
+epoch=14, train_loss: 0.014, train_l2: 2.593, test_l2: 2.816
+epoch=15, train_loss: 0.013, train_l2: 2.490, test_l2: 2.569
+epoch=16, train_loss: 0.011, train_l2: 2.374, test_l2: 2.373
+epoch=17, train_loss: 0.010, train_l2: 2.277, test_l2: 2.245
+epoch=18, train_loss: 0.009, train_l2: 2.237, test_l2: 2.134
+epoch=19, train_loss: 0.009, train_l2: 2.268, test_l2: 2.030
+epoch=20, train_loss: 0.010, train_l2: 2.362, test_l2: 1.942
+epoch=21, train_loss: 0.011, train_l2: 2.561, test_l2: 1.894
+epoch=22, train_loss: 0.013, train_l2: 2.752, test_l2: 1.843
+epoch=23, train_loss: 0.013, train_l2: 2.857, test_l2: 1.788
+epoch=24, train_loss: 0.014, train_l2: 2.893, test_l2: 1.735
+epoch=25, train_loss: 0.013, train_l2: 2.861, test_l2: 1.685
+epoch=26, train_loss: 0.013, train_l2: 2.778, test_l2: 1.644
+epoch=27, train_loss: 0.012, train_l2: 2.671, test_l2: 1.616
+epoch=28, train_loss: 0.011, train_l2: 2.564, test_l2: 1.604
+epoch=29, train_loss: 0.010, train_l2: 2.472, test_l2: 1.603
+epoch=30, train_loss: 0.009, train_l2: 2.388, test_l2: 1.601
+epoch=31, train_loss: 0.009, train_l2: 2.301, test_l2: 1.592
+epoch=32, train_loss: 0.008, train_l2: 2.210, test_l2: 1.578
+Traceback (most recent call last):
+  File "/Users/mattlowery/Desktop/code/fno_eqx/run_1d.py", line 164, in <module>
+  File "/opt/homebrew/Caskroom/miniforge/base/envs/node/lib/python3.10/site-packages/equinox/_jit.py", line 209, in __call__
+    return _call(self, False, args, kwargs)
+  File "/opt/homebrew/Caskroom/miniforge/base/envs/node/lib/python3.10/site-packages/equinox/_jit.py", line 271, in _call
+    marker.block_until_ready()
+KeyboardInterrupt
