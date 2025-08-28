@@ -1,0 +1,27 @@
+(1000, 128, 1) (1000, 128)
+param count: 26177
+param count: 26177
+(128, 1) (128, 1)
+(2, 10, 1, 1)
+(2, 10, 1, 1)
+(2, 10, 1, 1)
+(2, 10, 1, 1)
+(128, 1) (128, 1)
+(2, 10, 1, 1)
+(2, 10, 1, 1)
+(2, 10, 1, 1)
+(2, 10, 1, 1)
+epoch=0, train_loss: 0.244, train_l2: 11.035, test_l2: 11.740
+epoch=1, train_loss: 0.121, train_l2: 7.738, test_l2: 7.837
+epoch=2, train_loss: 0.055, train_l2: 5.339, test_l2: 6.443
+epoch=3, train_loss: 0.039, train_l2: 4.477, test_l2: 5.179
+epoch=4, train_loss: 0.037, train_l2: 4.336, test_l2: 4.931
+epoch=5, train_loss: 0.035, train_l2: 4.218, test_l2: 4.676
+Traceback (most recent call last):
+  File "/Users/mattlowery/Desktop/code/fno_eqx/run_1d.py", line 164, in <module>
+    model, optimizer_state, (train_loss, train_l2) = train_step(model, batch, optimizer_state)
+  File "/opt/homebrew/Caskroom/miniforge/base/envs/node/lib/python3.10/site-packages/equinox/_jit.py", line 209, in __call__
+    return _call(self, False, args, kwargs)
+  File "/opt/homebrew/Caskroom/miniforge/base/envs/node/lib/python3.10/site-packages/equinox/_jit.py", line 271, in _call
+    marker.block_until_ready()
+KeyboardInterrupt

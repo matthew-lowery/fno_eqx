@@ -1,0 +1,12 @@
+{"time":"2025-08-28T11:21:05.069438-06:00","level":"INFO","msg":"using version","core version":"0.18.5"}
+{"time":"2025-08-28T11:21:05.069518-06:00","level":"INFO","msg":"created symlink","path":"/Users/mattlowery/Desktop/code/fno_eqx/wandb/run-20250828_112105-cetyn20y/logs/debug-core.log"}
+{"time":"2025-08-28T11:21:05.179171-06:00","level":"INFO","msg":"created new stream","id":"cetyn20y"}
+{"time":"2025-08-28T11:21:05.17921-06:00","level":"INFO","msg":"stream: started","id":"cetyn20y"}
+{"time":"2025-08-28T11:21:05.179244-06:00","level":"INFO","msg":"sender: started","stream_id":"cetyn20y"}
+{"time":"2025-08-28T11:21:05.179223-06:00","level":"INFO","msg":"writer: Do: started","stream_id":{"value":"cetyn20y"}}
+{"time":"2025-08-28T11:21:05.179245-06:00","level":"INFO","msg":"handler: started","stream_id":{"value":"cetyn20y"}}
+{"time":"2025-08-28T11:21:05.448985-06:00","level":"INFO","msg":"Starting system monitor"}
+{"time":"2025-08-28T11:21:09.597369-06:00","level":"INFO","msg":"stream: closing","id":"cetyn20y"}
+{"time":"2025-08-28T11:21:09.5974-06:00","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2025-08-28T11:21:09.597741-06:00","level":"INFO","msg":"Stopped system monitor"}
+{"time":"2025-08-28T11:21:10.084494-06:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}

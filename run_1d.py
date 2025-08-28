@@ -12,8 +12,12 @@ import wandb
 # jax.config.update("jax_debug_nans", True)
 # jax.config.update("jax_enable_x64", True)
 
+
 key = jax.random.PRNGKey(seed=42)
 
+def is_trainable(x):
+    return eqx.is_array(x) and jnp.issubdtype(x.dtype, jnp.floating)
+    
 ## load data
 data = jnp.load('datasets/burgers.npz')
 x, x_grid, y, y_grid = data["x"], data["x_grid"], data["y"], data["y_grid"]
@@ -67,6 +71,8 @@ activation = jax.nn.gelu
 lift_dim= 64
 
 model = FNO(modes, lift_dim, activation, depth, 1, key=key)
+
+print(f'param count: {sum(x.size for x in jax.tree.leaves(eqx.filter(model, is_trainable)))}')
 
 ### optimizer config 
 epochs = 10000

@@ -1,0 +1,25 @@
+{"time":"2025-08-27T17:56:05.598754-06:00","level":"INFO","msg":"using version","core version":"0.18.5"}
+{"time":"2025-08-27T17:56:05.598778-06:00","level":"INFO","msg":"created symlink","path":"/Users/mattlowery/Desktop/code/fno_eqx/wandb/run-20250827_175605-qp59xv21/logs/debug-core.log"}
+{"time":"2025-08-27T17:56:05.704151-06:00","level":"INFO","msg":"created new stream","id":"qp59xv21"}
+{"time":"2025-08-27T17:56:05.704197-06:00","level":"INFO","msg":"stream: started","id":"qp59xv21"}
+{"time":"2025-08-27T17:56:05.704229-06:00","level":"INFO","msg":"sender: started","stream_id":"qp59xv21"}
+{"time":"2025-08-27T17:56:05.704212-06:00","level":"INFO","msg":"handler: started","stream_id":{"value":"qp59xv21"}}
+{"time":"2025-08-27T17:56:05.704208-06:00","level":"INFO","msg":"writer: Do: started","stream_id":{"value":"qp59xv21"}}
+{"time":"2025-08-27T17:56:05.928394-06:00","level":"INFO","msg":"Starting system monitor"}
+{"time":"2025-08-27T18:02:49.073735-06:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/files/certann/fno/qp59xv21/file_stream\": dial tcp: lookup api.wandb.ai: no such host"}
+{"time":"2025-08-27T18:18:13.853467-06:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/graphql\": read tcp 192.168.1.171:52704->35.186.228.49:443: read: operation timed out"}
+{"time":"2025-08-27T18:18:14.534801-06:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/files/certann/fno/qp59xv21/file_stream\": dial tcp: lookup api.wandb.ai: no such host"}
+{"time":"2025-08-27T18:18:16.130454-06:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/graphql\": dial tcp: lookup api.wandb.ai: no such host"}
+{"time":"2025-08-27T18:33:30.493419-06:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/files/certann/fno/qp59xv21/file_stream\": dial tcp: lookup api.wandb.ai: no such host"}
+{"time":"2025-08-27T18:33:32.013907-06:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/graphql\": dial tcp: lookup api.wandb.ai: no such host"}
+{"time":"2025-08-27T22:57:49.155459-06:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/graphql\": read tcp 10.0.0.171:52889->35.186.228.49:443: read: connection reset by peer"}
+{"time":"2025-08-27T22:58:09.838429-06:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/graphql\": dial tcp: lookup api.wandb.ai: no such host"}
+{"time":"2025-08-27T22:58:09.838483-06:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/files/certann/fno/qp59xv21/file_stream\": dial tcp: lookup api.wandb.ai: no such host"}
+{"time":"2025-08-27T23:52:33.581499-06:00","level":"INFO","msg":"stream: closing","id":"qp59xv21"}
+{"time":"2025-08-27T23:52:33.581531-06:00","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2025-08-27T23:52:33.582324-06:00","level":"INFO","msg":"Stopped system monitor"}
+{"time":"2025-08-27T23:52:35.058499-06:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2025-08-27T23:52:35.234241-06:00","level":"INFO","msg":"handler: closed","stream_id":{"value":"qp59xv21"}}
+{"time":"2025-08-27T23:52:35.234255-06:00","level":"INFO","msg":"sender: closed","stream_id":"qp59xv21"}
+{"time":"2025-08-27T23:52:35.234248-06:00","level":"INFO","msg":"writer: Close: closed","stream_id":{"value":"qp59xv21"}}
+{"time":"2025-08-27T23:52:35.234369-06:00","level":"INFO","msg":"stream: closed","id":"qp59xv21"}

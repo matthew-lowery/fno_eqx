@@ -9,6 +9,10 @@ import equinox as eqx
 
 DTYPE=jnp.float32
 
+
+def is_trainable(x):
+    return eqx.is_array(x) and jnp.issubdtype(x.dtype, jnp.floating)
+
 def shuffle(x,y, seed=1):
     np.random.seed(seed)
     idx = np.arange(len(x))
