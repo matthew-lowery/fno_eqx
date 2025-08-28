@@ -34,7 +34,6 @@ class SpectralConv1d(eqx.Module):
         self.out_channels = out_channels
 
     def __call__(self, x: Float[Array, "x in_channels"]) -> Float[Array, "x out_channels"]: ### x,y,z,channels
-        print(self.weights.shape)
         x_ft = jnp.fft.rfftn(x, axes=list(range(self.ndims))) ### no batch dim, of shape x,y,z//2+1,channels
         out_ft = jnp.zeros((*x_ft.shape[:-1], self.out_channels), dtype=jnp.complex64)
         out = self.mul(x_ft[:self.mode], self.weights[0]+self.weights[1]*1j)
