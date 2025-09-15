@@ -12,15 +12,24 @@ import wandb
 # jax.config.update("jax_debug_nans", True)
 # jax.config.update("jax_enable_x64", True)
 
+import argparse
+parser = argparse.ArgumentParser()
+parser.add_argument('--mode', type=int, default=64)
+parser.add_argument('--lift-dim', type=int, default=64)
+parser.add_argument('--seed', type=int, default=1)
+parser.add_argument('--visc', type=str, default='0.001000')
+parser.add_argument('--wandb', action='store_true')
 
-key = jax.random.PRNGKey(seed=42)
+args = parser.parse_args()
+
+key = jax.random.PRNGKey(seed=args.seed)
 
 def is_trainable(x):
     return eqx.is_array(x) and jnp.issubdtype(x.dtype, jnp.floating)
     
 ## load data
 from scipy.io import loadmat
-data = loadmat('./datasets/burgers_1200_0.001000.mat')
+data = loadmat(f'./datasets/burgers_1200_{args.visc}.mat')
 # data = loadmat('/Users/mattlowery/Desktop/code/deeponet-fno/data/burgers/burgers_1200_0.001000')
 data = data['output']
 x = data[:,0]
@@ -46,9 +55,9 @@ ntest = 200
 # ntrain = 1000
 # ntest = 200
 
-from matplotlib import pyplot as plt
-plt.plot(x_grid.squeeze(), y[0])
-plt.show()
+# from matplotlib import pyplot as plt
+# plt.plot(x_grid.squeeze(), y[0])
+# plt.show()
 
 x_train, x_test = x[: ntrain], x[-ntest:]
 y_train, y_test = y[: ntrain], y[-ntest:]
@@ -75,7 +84,7 @@ wandb.init(project='fno')
 
 
 ## model config 
-modes = [64] ### list of modes, one per dim
+modes = [args.mode] ### list of modes, one per dim
 depth = 4
 activation = jax.nn.gelu
 lift_dim= 64
