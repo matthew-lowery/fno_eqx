@@ -1,0 +1,11 @@
+{"time":"2025-09-04T16:55:24.533478-06:00","level":"INFO","msg":"using version","core version":"0.18.5"}
+{"time":"2025-09-04T16:55:24.533508-06:00","level":"INFO","msg":"created symlink","path":"/Users/mattlowery/Desktop/code/fno_eqx/wandb/run-20250904_165524-r7dlm9k3/logs/debug-core.log"}
+{"time":"2025-09-04T16:55:24.641643-06:00","level":"INFO","msg":"created new stream","id":"r7dlm9k3"}
+{"time":"2025-09-04T16:55:24.641677-06:00","level":"INFO","msg":"stream: started","id":"r7dlm9k3"}
+{"time":"2025-09-04T16:55:24.641692-06:00","level":"INFO","msg":"sender: started","stream_id":"r7dlm9k3"}
+{"time":"2025-09-04T16:55:24.64171-06:00","level":"INFO","msg":"handler: started","stream_id":{"value":"r7dlm9k3"}}
+{"time":"2025-09-04T16:55:24.641691-06:00","level":"INFO","msg":"writer: Do: started","stream_id":{"value":"r7dlm9k3"}}
+{"time":"2025-09-04T16:55:24.962486-06:00","level":"INFO","msg":"Starting system monitor"}
+{"time":"2025-09-04T16:55:30.69529-06:00","level":"INFO","msg":"stream: closing","id":"r7dlm9k3"}
+{"time":"2025-09-04T16:55:30.695308-06:00","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2025-09-04T16:55:30.695611-06:00","level":"INFO","msg":"Stopped system monitor"}

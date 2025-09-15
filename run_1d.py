@@ -19,19 +19,40 @@ def is_trainable(x):
     return eqx.is_array(x) and jnp.issubdtype(x.dtype, jnp.floating)
     
 ## load data
-data = jnp.load('datasets/burgers.npz')
-x, x_grid, y, y_grid = data["x"], data["x_grid"], data["y"], data["y_grid"]
-y = y.squeeze()
-print(f'dataset dims: {x.shape=}, {x_grid.shape=}, {y.shape=}, {y_grid.shape=}')
+from scipy.io import loadmat
+data = loadmat('./datasets/burgers_1200_0.001000.mat')
+# data = loadmat('/Users/mattlowery/Desktop/code/deeponet-fno/data/burgers/burgers_1200_0.001000')
+data = data['output']
+x = data[:,0]
+y = data[:,1]
+x_grid = jnp.linspace(0,1,8192)
 
+# x,x_grid,y = data['x'].astype(jnp.float32), data['x_grid'].astype(jnp.float32), data['y'].astype(jnp.float32)
+
+x = x.reshape(1200,-1,1)
+y = y.reshape(1200,-1)
+sub = 64
+x,y = x[:,::sub], y[:,::sub]
+x_grid = jnp.linspace(0,1,x.shape[1]).reshape(-1,1)
+print(x.shape, y.shape, x_grid.shape)
 ntrain = 1000
 ntest = 200
 
+# fp = '../datasets/burgers.npz'
+# data = jnp.load(fp)
+# dataset = fp.split('/')[-1].split('.')[0]
+# x, x_grid, y, y_grid = data["x"].astype(DTYPE), data["x_grid"].astype(DTYPE), data["y"].astype(DTYPE), data["y_grid"].astype(DTYPE)
+# y = y.reshape(1200, -1)
+# ntrain = 1000
+# ntest = 200
+
+from matplotlib import pyplot as plt
+plt.plot(x_grid.squeeze(), y[0])
+plt.show()
 
 x_train, x_test = x[: ntrain], x[-ntest:]
 y_train, y_test = y[: ntrain], y[-ntest:]
-
-
+print(x_train.shape, x_test.shape, y_train.shape, y_test.shape)
 ### data config 
 train_batch_size = 10
 num_train_batches = len(x_train) // train_batch_size
@@ -46,22 +67,11 @@ num_train_batches = len(x_train) // train_batch_size
 #     Ytr, Yte = Y[:Ntr], Y[Ntr:]
 #     return Xtr, Xte,Ytr,Yte
 
+
+import os
+os.environ["WANDB_MODE"] = "disabled"
 wandb.login(key='d612cda26a5690e196d092756d668fc2aee8525b')
 wandb.init(project='fno')
-
-# x_train,x_test,y_train,y_test = get_beijing()
-# y_train, y_test = y_train.squeeze(), y_test.squeeze()
-# x_grid = jnp.linspace(0,1,x_train.shape[1])[:,None]
-# ndims = x_grid.shape[-1]
-# ntrain = len(x_train)
-# ntest = len(x_test)
-# print(f'{x_train.shape=}, {x_test.shape=}, {y_train.shape=}, {y_test.shape=}')
-# train_batch_size = 20
-# num_train_batches = len(x_train) // train_batch_size
-
-print(x_train.shape, y_train.shape)
-
-
 
 
 ## model config 
@@ -164,6 +174,6 @@ for epoch in range(epochs):
         
     if (epoch % print_every) == 0 or (epoch == epochs - 1):
         test_l2 = eval(model, (x_test, y_test))
-        print(f"{epoch=}, train_loss: {train_loss.item():.3f}, train_l2: {train_l2.item()*100:.3f}, test_l2: {test_l2.item()*100:.3f}")
+        print(f"{epoch=}, train_loss: {train_loss.item():.3f}, train_l2: {train_l2.item()*100:.8f}, test_l2: {test_l2.item()*100:.8f}")
         wandb.log({"test_loss": test_l2.item()*100}, step=epoch)
 print(time.perf_counter() - t1)
