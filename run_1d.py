@@ -38,11 +38,11 @@ x_grid = jnp.linspace(0,1,8192)
 
 # x,x_grid,y = data['x'].astype(jnp.float32), data['x_grid'].astype(jnp.float32), data['y'].astype(jnp.float32)
 
-x = x.reshape(1200,-1,1)
-y = y.reshape(1200,-1)
+x = x.reshape(1200,-1,1).astype(jnp.float32)
+y = y.reshape(1200,-1).astype(jnp.float32)
 sub = 64
 x,y = x[:,::sub], y[:,::sub]
-x_grid = jnp.linspace(0,1,x.shape[1]).reshape(-1,1)
+x_grid = jnp.linspace(0,1,x.shape[1]).reshape(-1,1).astype(jnp.float32)
 print(x.shape, y.shape, x_grid.shape)
 ntrain = 1000
 ntest = 200
@@ -80,7 +80,7 @@ num_train_batches = len(x_train) // train_batch_size
 import os
 if not args.wandb:
     os.environ["WANDB_MODE"] = "disabled"
-    
+
 wandb.login(key='d612cda26a5690e196d092756d668fc2aee8525b')
 wandb.init(project='fno')
 
