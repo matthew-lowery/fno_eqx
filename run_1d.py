@@ -54,7 +54,7 @@ x_train, x_test = x[: ntrain], x[-ntest:]
 y_train, y_test = y[: ntrain], y[-ntest:]
 print(x_train.shape, x_test.shape, y_train.shape, y_test.shape)
 ### data config 
-train_batch_size = 10
+train_batch_size = 100
 num_train_batches = len(x_train) // train_batch_size
 
 # def get_beijing(seed=0, normalization=True):
@@ -75,7 +75,7 @@ wandb.init(project='fno')
 
 
 ## model config 
-modes = [10] ### list of modes, one per dim
+modes = [64] ### list of modes, one per dim
 depth = 4
 activation = jax.nn.gelu
 lift_dim= 64
@@ -86,16 +86,8 @@ print(f'param count: {sum(x.size for x in jax.tree.leaves(eqx.filter(model, is_t
 
 ### optimizer config 
 epochs = 10000
-lr_schedule = cosine_annealing(
-    total_steps = num_train_batches*epochs,
-    init_value=1e-3,
-    warmup_frac=0.3,
-    peak_value=1e-3,
-    end_value=1e-3,
-    num_cycles=6,
-    gamma=0.9,)
 
-optimizer = optax.adamw(lr_schedule)
+optimizer = optax.adamw(0.001)
 
 
 ### misc config
