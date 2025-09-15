@@ -83,7 +83,7 @@ if not args.wandb:
 
 wandb.login(key='d612cda26a5690e196d092756d668fc2aee8525b')
 wandb.init(project='fno')
-
+wandb.config.update(args)
 
 ## model config 
 modes = [args.mode] ### list of modes, one per dim
