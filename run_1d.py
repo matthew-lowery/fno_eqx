@@ -78,7 +78,9 @@ num_train_batches = len(x_train) // train_batch_size
 
 
 import os
-os.environ["WANDB_MODE"] = "disabled"
+if not args.wandb:
+    os.environ["WANDB_MODE"] = "disabled"
+    
 wandb.login(key='d612cda26a5690e196d092756d668fc2aee8525b')
 wandb.init(project='fno')
 
